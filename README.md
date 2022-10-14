@@ -2,8 +2,10 @@
 
 ## Description
 
-A python producer sends data into RedPandas Stream (i.e Kafka). The consumer insert the data into
+A python producer service sends data into RedPandas Stream (i.e Kafka). The consumer service insert the data into
 Postgres.
+
+The Postgres database is created with alembic.
 
 ## Setup
 
@@ -16,3 +18,4 @@ make startup
 ## References
 
 - https://www.fadhil-blog.dev/blog/streaming-batch-worker/
+- https://www.confluent.io/blog/kafka-listeners-explained/

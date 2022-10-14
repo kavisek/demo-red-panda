@@ -1,5 +1,9 @@
+import os
 from kafka import KafkaConsumer
 from time import sleep
+
+KAFKA_HOST = os.getenv("KAFKA_HOST", "localhost")
+KAFKA_PORT = os.getenv("KAFKA_PORT", "9092")
 
 
 def process_message(email):
@@ -13,7 +17,9 @@ def process_message(email):
 if __name__ == "__main__":
     print("starting streaming consumer app")
     consumer = KafkaConsumer(
-        "user_signups", bootstrap_servers=["localhost:9092"], group_id="group1"
+        "user_signups",
+        bootstrap_servers=[f"{KAFKA_HOST}:{KAFKA_PORT}"],
+        group_id="group1",
     )
 
     for message in consumer:
