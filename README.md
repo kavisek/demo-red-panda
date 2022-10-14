@@ -1,14 +1,18 @@
-# template-workspace
-A template workspace
+# RedPandas Example
 
 ## Description
 
-{TBD}
+A python producer sends data into RedPandas Stream (i.e Kafka). The consumer insert the data into
+Postgres.
 
 ## Setup
 
-{TBD}
+```
+cd app
+make startup
+```
+
 
 ## References
 
-{None}
+- https://www.fadhil-blog.dev/blog/streaming-batch-worker/

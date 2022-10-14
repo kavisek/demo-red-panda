@@ -1,8 +1,18 @@
-# enviroment variables are
+# DOCKER COMPOSE COMMANDS
+
+shutdown:
+	@echo "Shutting down..."
+	docker-compose down
+
+startup:
+	docker-compose --profile kafka --profile db up -d
+
+
+startup_kafman: shutdown
+	docker-compose up --profile kafka up
+
 
 # POETRY COMMANDS
-
-PROJECT_ID=kavi-dummy-project-123
 
 .PHONY: install
 pinstall:
@@ -29,31 +39,16 @@ black:
 	isort
 
 
-# DOCKER / CONTAINER REGISTRY COMMANDS
-CONTAINER_NAME=template
+# DOCKER COMMANDS
+
+
+CONTAINER_NAME=alembic
 PROJECT_ID=kavi-prod-data-lab-4943
 
 .PHONY: build
 build:
-	docker build -t gcr.io/$(PROJECT_ID)/$(CONTAINER_NAME) .
+	docker build -f Dockerfile.alembic -t gcr.io/$(PROJECT_ID)/$(CONTAINER_NAME) .
 
 .PHONY: run
-run: build
-	docker run -it --name ${CONTAINER_NAME} gcr.io/$(PROJECT_ID)/$(CONTAINER_NAME)
-
-.PHONY: push
-push: build
-	docker push gcr.io/$(PROJECT_ID)/$(CONTAINER_NAME)
-
-.PHONY: attach
-attach:
-	docker exec -it $(CONTAINER_NAME) /bin/bash
-
-
-# CLOUD SLQ PROXY COMMANDS
-proxy_download:
-	curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.darwin.amd64
-	chmod +x cloud_sql_proxy
-
-proxy:
-	./cloud_sql_proxy -instances=[project]:us-central1:[db-name]=tcp:5434
+run:
+	docker run -it --network="app_network" --name ${CONTAINER_NAME} gcr.io/$(PROJECT_ID)/$(CONTAINER_NAME) upgrade head
