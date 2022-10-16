@@ -37,18 +37,3 @@ pytest:
 .PHONY:black
 black:
 	isort
-
-
-# DOCKER COMMANDS
-
-
-CONTAINER_NAME=alembic
-PROJECT_ID=kavi-prod-data-lab-4943
-
-.PHONY: build
-build:
-	docker build -f Dockerfile.alembic -t gcr.io/$(PROJECT_ID)/$(CONTAINER_NAME) .
-
-.PHONY: run
-run:
-	docker run -it --network="app_network" --name ${CONTAINER_NAME} gcr.io/$(PROJECT_ID)/$(CONTAINER_NAME) upgrade head

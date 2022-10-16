@@ -7,16 +7,17 @@ The core of this project is a docker compose configuration. A python producer se
 
 ## Business Requirements
 
-- Be able to process 500 messages per minute
+- Be able to process 500 messages per minute.
 ## Technical Reqiurements
 
-- Make sure we can spin up your solution with docker compose
-- Use Postgres as the final datastore
-- Use Red Pandas as the message broker
-- Use Alembic for the postgres migration
+- Make sure we can spin up your solution with docker-compose.
+- Use Postgres as the final data store.
+- Use Red Pandas as the message broker.
+- Use Alembic for the Postgres migration.
 ## Setup
 
 ```bash
+# Start docker-compose configuration.
 cd app
 make startup
 ```
