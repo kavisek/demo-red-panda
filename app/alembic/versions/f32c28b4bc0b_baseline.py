@@ -5,10 +5,10 @@ Revises:
 Create Date: 2022-10-13 09:29:43.149516
 
 """
-from alembic import op
 import sqlalchemy as sa
-
-from sqlalchemy import Column, Integer, String, DateTime
+from alembic import op
+from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy.dialects.postgresql import UUID
 
 # revision identifiers, used by Alembic.
 revision = "f32c28b4bc0b"
@@ -19,9 +19,10 @@ depends_on = None
 
 def upgrade():
     op.execute('create schema "users"')
+    op.execute('create extension if not exists "uuid-ossp"')
     op.create_table(
         "events",
-        Column("id", Integer, primary_key=True),
+        Column("id", UUID(as_uuid=True), primary_key=True),
         Column("first_name", String(50), nullable=False),
         Column("last_name", String(50), nullable=False),
         Column("email", String(255), nullable=False),
@@ -30,10 +31,8 @@ def upgrade():
         Column("updated_at", DateTime, nullable=False),
         schema="users",
     )
-    pass
 
 
 def downgrade():
     op.drop_table("events", schema="users")
     op.execute('drop schema "users" cascade')
-    pass

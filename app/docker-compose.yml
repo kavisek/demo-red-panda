@@ -15,6 +15,8 @@ services:
     depends_on:
       - alembic
       - redpanda
+    profiles:
+      - kafka
     
   consumer:
     build:
@@ -24,13 +26,20 @@ services:
     environment:
       - KAFKA_HOST=redpanda
       - KAFKA_PORT=29092
+      - POSTGRES_DB=postgres
+      - POSTGRES_SCHEMA=users
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
     restart: unless-stopped
     networks:
       - network
     depends_on:
       - alembic
       - redpanda
-  
+    profiles:
+      - kafka
+
   alembic:
     build:
       context: .

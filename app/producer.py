@@ -1,11 +1,16 @@
 import os
-from kafka import KafkaProducer, KafkaAdminClient
-from kafka.admin import NewTopic
-from time import sleep
+import uuid
+import json
 from datetime import datetime
+from time import sleep
+
+from faker import Faker
+from kafka import KafkaAdminClient, KafkaProducer
+from kafka.admin import NewTopic
 
 KAFKA_HOST = os.getenv("KAFKA_HOST", "localhost")
 KAFKA_PORT = os.getenv("KAFKA_PORT", "9092")
+SLEEP_INTERVAL = 0.005
 
 if __name__ == "__main__":
 
@@ -22,8 +27,16 @@ if __name__ == "__main__":
     producer = KafkaProducer(bootstrap_servers=[f"{KAFKA_HOST}:{KAFKA_PORT}"])
 
     while True:
-        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        email = f"user_{current_date}@gmail.com"
-        producer.send(topic_name, email.encode())
-        sleep(2)
-        print(f"Published message to message broker. User email: {email}")
+        payload = {
+            "first_name": Faker().first_name(),
+            "last_name": Faker().last_name(),
+            "email": Faker().email(),
+            "status": "pending",
+            "created_at": datetime.now().isoformat(),
+            "updated_at": datetime.now().isoformat(),
+        }
+        payload = json.dumps(payload)
+
+        producer.send(topic_name, payload.encode())
+        sleep(SLEEP_INTERVAL)
+        print(f"Published message to message broker. Data: {payload}")

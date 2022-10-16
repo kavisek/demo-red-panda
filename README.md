@@ -1,15 +1,22 @@
-# RedPandas Example
+# Demo: Red Panda
 
 ## Description
 
-A python producer service sends data into RedPandas Stream (i.e Kafka). The consumer service insert the data into
-Postgres.
+The core of this project is a docker compose configuration. A python producer service sends fake user data into RedPandas Stream (i.e Kafka). The consumer service read from the topic inserts the data into Postgres.
 
-The Postgres database is created with alembic.
 
+## Business Requirements
+
+- Be able to process 500 messages per minute
+## Technical Reqiurements
+
+- Make sure we can spin up your solution with docker compose
+- Use Postgres as the final datastore
+- Use Red Pandas as the message broker
+- Use Alembic for the postgres migration
 ## Setup
 
-```
+```bash
 cd app
 make startup
 ```
