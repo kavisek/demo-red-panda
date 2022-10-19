@@ -8,7 +8,7 @@ startup:
 	docker-compose --profile kafka --profile db up -d
 
 
-startup_kafman: shutdown
+startup_kafka: shutdown
 	docker-compose up --profile kafka up
 
 
